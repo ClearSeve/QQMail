@@ -131,7 +131,7 @@ BOOL CQQMailDlg::OnInitDialog()
     m_wndEdit2.SetWindowText(str2);
     m_wndEdit1.SetWindowText(str1);
     m_wndBehind.SetCheck(TRUE);
-    g_Bdata = m_wndBehind.GetCheck();
+    
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -193,7 +193,11 @@ void CQQMailDlg::OnBnClickedStart()
       m_wndBehind.EnableWindow(FALSE);
       m_wndEdit1.EnableWindow(FALSE);
       m_wndEdit2.EnableWindow(FALSE);
+
       UpdateWindow();
+
+	  g_Bdata = m_wndBehind.GetCheck();
+
       //开始线程
       Main = CreateThread(NULL,0,::ThreadProc,NULL,0,&nThreadID);//创建一个立刻执行的线程
 
@@ -277,7 +281,7 @@ void CQQMailDlg::OnEnUpdateEdit1()
 }
 DWORD WINAPI ThreadProc(LPVOID lpParameter)
 {
-   
+
     int data = data1;
     m_wndProgress.SetRange(data1,data2);
     CString str;
@@ -295,7 +299,6 @@ DWORD WINAPI ThreadProc(LPVOID lpParameter)
         AfxMessageBox(_T("打开文件失败"));
         return -1;
     }
-
     if (g_Bdata==TRUE)
     {
         while (data!=data2)
