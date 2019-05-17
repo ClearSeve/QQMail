@@ -290,7 +290,6 @@ DWORD WINAPI ThreadProc(LPVOID lpParameter)
     WCHAR path[MAX_PATH] = {0};
     wsprintf(path, _T("%s\\QQData.txt"), szCurrent);
     File = _wfopen(path,_T("w+"));//打开文件
-    CHAR* strData;
     if (File == NULL)
     {
         AfxMessageBox(_T("打开文件失败"));
@@ -301,20 +300,20 @@ DWORD WINAPI ThreadProc(LPVOID lpParameter)
     {
         while (data!=data2)
         {
-            str.Format(_T("%d@qq.com\n"),data);
+			CStringA strTmp;
+			strTmp.Format("%d@qq.com\n", data);
             m_wndProgress.SetStep(1);
-            strData = (LPSTR)(LPCTSTR)str;
-            fprintf(File,strData);
+			fprintf(File, strTmp.GetBuffer());
             data++;
         }
     }else
     {
         while (data!=data2)
         {
-            str.Format(_T("%d\n"),data);
+			CStringA strTmp;
+			strTmp.Format("%d\n", data);
             m_wndProgress.SetStep(1);
-            strData = (LPSTR)(LPCTSTR)str;
-            fprintf(File,strData);
+			fprintf(File, strTmp.GetBuffer());
             data++;
         }
     }
